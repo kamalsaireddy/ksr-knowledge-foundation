@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kamalsaireddy.github.io/ksr-knowledge-foundation/sitemap.xml
