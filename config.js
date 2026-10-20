@@ -41,7 +41,7 @@ window.KSR_CONFIG = {
      See README.md, section "Making the forms work". */
   forms: {
     provider: "web3forms",
-    web3formsKey: "PASTE-YOUR-ACCESS-KEY-HERE",   // from the Web3Forms email, keep the quotes
+    web3formsKey: "b615b001-c782-407f-948b-bccd972a24db",   // from the Web3Forms email, keep the quotes
     formspreeEndpoint: ""
   },
 
