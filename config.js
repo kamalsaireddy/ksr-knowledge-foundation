@@ -19,7 +19,7 @@ window.KSR_CONFIG = {
   founder: {
     name: "Kamal Sai Reddy",
     role: "Founder",
-    photo: "assets/img/founder.jpg",
+    photo: "founder.jpg",
     bio: "Kamal Sai started KSR Knowledge Foundation to share the knowledge, resources and opportunities he believes every student and job seeker should be able to reach.",
     links: [
       { label: "Portfolio", url: "https://kamalsaireddy.github.io/Portfolio/" }

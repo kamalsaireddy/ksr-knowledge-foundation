@@ -2,8 +2,8 @@
 
 All regular updates happen in two files. On GitHub, open the file, click the **pencil icon (Edit)**, make your change, then click **Commit changes**. The site updates in 1–2 minutes.
 
-- `assets/js/config.js`: organisation name, email, founder, social links, forms
-- `assets/js/content.js`: everything else
+- `config.js`: organisation name, email, founder, social links, forms
+- `content.js`: everything else
 
 **Golden rules for editing**
 1. Text goes inside quotes: `title: "My event",`
@@ -71,9 +71,9 @@ Same pattern: copy a block, edit, commit.
 ## Organisation details (`config.js`)
 - `email`: once set, contact links appear across the site and forms offer an email fallback
 - `location`: leave `""` to hide
-- `founder.photo`: upload e.g. `founder.jpg` into `assets/img/`, then set `photo: "assets/img/founder.jpg"`
+- `founder.photo`: upload e.g. `founder.jpg` to the repo (same place as index.html), then set `photo: "founder.jpg"`
 - `social`: remove the `//` at the start of a line to switch it on, and put your real link
 - `showSamples: false` hides every item marked `sample: true`
 
 ## Changing the organisation name
-Change `orgName` in `config.js`; the header, footer and page text update automatically. The browser-tab titles and link previews are written into each `.html` file's top section, so also use find-and-replace across the `.html` files, and replace `assets/img/og-image.png`.
+Change `orgName` in `config.js`; the header, footer and page text update automatically. The browser-tab titles and link previews are written into each `.html` file's top section, so also use find-and-replace across the `.html` files, and replace `og-image.png`.

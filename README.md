@@ -7,11 +7,11 @@ A static website (plain HTML, CSS and JavaScript) built to run on GitHub Pages, 
 | File / folder | What it is |
 |---|---|
 | `index.html` … `terms.html` | One file per page (home, about, opportunities, books, donate, english, join, events, learn, get-involved, contact, privacy, terms, 404) |
-| `assets/js/config.js` | **Organisation settings**: name, email, founder, social links, form service |
-| `assets/js/content.js` | **Content**: events, videos, opportunities, resources, campaigns, impact numbers, FAQs |
-| `assets/css/style.css` | Colours, fonts and layout. Colours are at the top |
-| `assets/js/main.js` | Site behaviour (menu, filters, forms). You shouldn't need to edit it |
-| `assets/img/` | Images. `og-image.png` is the link preview on WhatsApp/LinkedIn |
+| `config.js` | **Organisation settings**: name, email, founder, social links, form service |
+| `content.js` | **Content**: events, videos, opportunities, resources, campaigns, impact numbers, FAQs |
+| `style.css` | Colours, fonts and layout. Colours are at the top |
+| `main.js` | Site behaviour (menu, filters, forms). You shouldn't need to edit it |
+| `founder.jpg`, `og-image.png` | Images. `og-image.png` is the link preview on WhatsApp/LinkedIn. Add new photos next to index.html, using only photos you have permission to use |
 | `sitemap.xml`, `robots.txt` | For search engines |
 | `.nojekyll` | Tells GitHub Pages to publish files as they are. Keep it |
 
@@ -22,7 +22,7 @@ Day-to-day editing is explained in **CONTENT-GUIDE.md**.
 Keep this separate from your portfolio so neither can break the other.
 
 1. On GitHub, click **New repository**. Name it `ksr-knowledge-foundation`, set it to **Public**, and click **Create repository**.
-2. Click **uploading an existing file**. Drag in **everything inside** this folder (not the folder itself), including `.nojekyll` and the `assets` folder. On a Mac, press Cmd + Shift + . in Finder to see `.nojekyll`.
+2. Click **uploading an existing file**. Drag in **everything inside** this folder (not the folder itself), including `.nojekyll`. All files sit in one folder, so "choose your files" works too. On a Mac, press Cmd + Shift + . in Finder to see `.nojekyll`.
 3. Click **Commit changes**.
 4. Go to **Settings → Pages**. Under *Build and deployment*, choose **Deploy from a branch**, branch **main**, folder **/ (root)**, and click **Save**.
 5. After 1–2 minutes the site is live at `https://kamalsaireddy.github.io/ksr-knowledge-foundation/`.
@@ -37,7 +37,7 @@ GitHub Pages only serves files. It cannot receive form submissions, so the forms
 
 **Recommended: Web3Forms** (simplest, no dashboard needed)
 1. Go to web3forms.com, enter the email address that should receive submissions, and you'll be emailed an *access key*.
-2. In `assets/js/config.js` set:
+2. In `config.js` set:
    ```js
    forms: { provider: "web3forms", web3formsKey: "YOUR-ACCESS-KEY", formspreeEndpoint: "" },
    ```
@@ -59,7 +59,7 @@ Privacy: submissions go to your email inbox only. They are never stored in this 
 - [ ] Set up forms (section 2) and test every form
 - [ ] Replace sample content in `content.js`, then set `showSamples: false`
 - [ ] Open each resource link, then fill in its `reviewed` date
-- [ ] Add real photos (with permission) to `assets/img/`
+- [ ] Add real photos (with permission) to the repo (same place as index.html)
 - [ ] Fill in the "Last updated" date on `privacy.html` and `terms.html`, and have both reviewed
 - [ ] Decide how you'll describe the organisation legally (see below)
 
