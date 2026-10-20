@@ -29,6 +29,13 @@
   function visible(list) { return (list || []).filter(function (x) { return CFG.showSamples || !x.sample; }); }
   function sampleBadge(x) { return x.sample ? '<span class="badge badge-sample">Sample</span>' : ""; }
 
+  function fillFollow(root) {
+    var li = (CFG.social || []).filter(function (l) { return /linkedin\.com/i.test(l.url || "") && safeUrl(l.url); })[0];
+    $$("[data-follow-linkedin]", root).forEach(function (el) {
+      if (!li) { el.hidden = true; return; }
+      el.hidden = false; var a = $("a", el); if (a) a.href = li.url;
+    });
+  }
   /* ---------- Organisation details ---------- */
   function fillOrg() {
     $$("[data-org]").forEach(function (el) { el.textContent = CFG.orgName; });
@@ -54,6 +61,8 @@
       el.hidden = !links.length;
     });
 
+    fillFollow(document);
+
     $$('[data-render="social"]').forEach(function (el) {
       var s = (CFG.social || []).filter(function (l) { return safeUrl(l.url); });
       el.innerHTML = s.length
@@ -77,9 +86,25 @@
     window.matchMedia("(min-width: 1101px)").addEventListener("change", function (m) { if (m.matches) set(false); });
   }
 
+
+  /* ---------- Coming soon ---------- */
+  function csQuote(key) { var cs = window.KSR_COMING_SOON || {}; var q = cs.quotes || {}; return q[key] || q["default"] || { text: "", by: "" }; }
+  function comingSoon(key, heading) {
+    var cs = window.KSR_COMING_SOON || {}, q = csQuote(key);
+    var social = (CFG.social || []).filter(function (l) { return safeUrl(l.url); })[0];
+    return '<div class="coming-soon"><span class="badge">' + esc(cs.title || "Coming soon") + "</span>" +
+      (heading ? '<h3 class="cs-heading">' + esc(heading) + "</h3>" : "") +
+      (q.text ? '<blockquote class="cs-quote"><p>“' + esc(q.text) + '”</p>' + (q.by ? "<footer>" + esc(q.by) + "</footer>" : "") + "</blockquote>" : "") +
+      '<p class="cs-message">' + esc(cs.message || "") + "</p>" +
+      '<div class="btn-row"><a class="btn btn-primary" href="join.html">Join the community</a>' +
+      (social ? '<a class="btn btn-secondary" href="' + esc(social.url) + '" target="_blank" rel="noopener">Follow on ' + esc(social.label) + "</a>" : "") + "</div></div>";
+  }
+
   /* ---------- Impact ---------- */
   function impact() {
+    var anyImpact = (DATA.impact || []).some(function (i) { return typeof i.value === "number"; });
     $$('[data-render="impact"]').forEach(function (el) {
+      if (!anyImpact) { el.classList.remove("impact"); el.innerHTML = comingSoon("impact", "Our first numbers are on the way"); return; }
       el.innerHTML = (DATA.impact || []).map(function (i) {
         var has = typeof i.value === "number";
         return '<div><span class="num' + (has ? "" : " pending") + '">' + (has ? i.value.toLocaleString("en-IN") : "To be updated") +
@@ -87,6 +112,7 @@
       }).join("");
     });
     $$("[data-impact-updated]").forEach(function (el) {
+      if (!anyImpact) { el.hidden = true; return; }
       el.textContent = DATA.impactUpdated ? "Figures last updated " + fmtDate(DATA.impactUpdated) + "." : "We will publish figures here once activities begin. We only show numbers we have recorded.";
     });
   }
@@ -170,11 +196,15 @@
     $$('[data-render="events-preview"]').forEach(function (el) {
       var up = all.filter(isUpcoming).slice(0, 3);
       el.innerHTML = up.length ? '<div class="card-list">' + up.map(eventCard).join("") + "</div>" :
-        '<div class="empty"><strong>No upcoming events right now</strong>Join the community and we’ll tell you when the next session is scheduled. <a href="join.html?type=Event+Participant">Join the community</a></div>';
+        comingSoon("events", "Our first meetups are being planned");
       bindEventButtons(el);
     });
     var page = $('[data-render="events"]');
     if (!page) return;
+    if (!all.length) {
+      $("[data-event-filters]").hidden = true; var ec = $("[data-event-count]"); if (ec) ec.hidden = true;
+      page.innerHTML = comingSoon("events", "Our first meetups are being planned"); return;
+    }
     var state = { view: "upcoming", cat: "All" };
     var cats = ["All"].concat(window.KSR_EVENT_CATEGORIES || []);
     var bar = $("[data-event-filters]");
@@ -236,7 +266,7 @@
     var all = visible(DATA.videos).sort(function (a, b) { return (b.published || "").localeCompare(a.published || ""); });
     $$('[data-render="video-featured"]').forEach(function (el) {
       var f = all.filter(function (v) { return v.featured; })[0] || all[0];
-      if (!f) { el.innerHTML = '<div class="empty"><strong>Our first videos are on the way</strong>Short, practical videos on careers, English and scholarships will appear here.</div>'; return; }
+      if (!f) { el.innerHTML = comingSoon("videos", "Our first videos are on the way"); return; }
       el.innerHTML = '<div class="featured-video">' + (f.youtubeId
         ? '<iframe class="embed" src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(f.youtubeId) + '" title="' + esc(f.title) + '" allowfullscreen loading="lazy"></iframe>'
         : thumb(f)) +
@@ -245,6 +275,19 @@
     });
     var page = $('[data-render="videos"]');
     if (!page) return;
+    if (!all.length) {
+      $("[data-video-filters]").hidden = true; $("[data-video-count]").hidden = true;
+      var vh = $("[data-video-heading]"); if (vh) vh.textContent = "Topics we’re preparing";
+      var topics = (window.KSR_COMING_SOON || {}).topics || {};
+      page.innerHTML = '<div class="topic-grid">' + (window.KSR_VIDEO_CATEGORIES || []).map(function (c) {
+        return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '"><span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topics[c] || "") + '</span><span class="badge">Coming soon</span></button>';
+      }).join("") + "</div>";
+      page.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-topic-tile]"); if (!b) return;
+        var c = b.getAttribute("data-topic-tile"); openDialog(comingSoon(c, c), c);
+      });
+      return;
+    }
     bindVideoButtons(document.body);
     var cats = ["All"].concat(window.KSR_VIDEO_CATEGORIES || []);
     var state = { cat: "All", q: "" };
@@ -290,7 +333,8 @@
       var list = all.filter(function (o) { return state === "All" || o.type === state; })
         .sort(function (a, b) { var ea = a.deadline && toDate(a.deadline) < new Date(), eb = b.deadline && toDate(b.deadline) < new Date(); return ea - eb; });
       el.innerHTML = list.length ? '<div class="card-list">' + list.map(card).join("") + "</div>" :
-        '<div class="empty"><strong>No verified opportunities listed right now</strong>We only post openings we have checked on the official source. Join the community to get updates.</div>';
+        comingSoon("opportunities", "Verified opportunities are coming soon");
+      bar.hidden = !all.length;
     }
     bar.addEventListener("click", function (e) { var b = e.target.closest("[data-cat]"); if (!b) return; state = b.dataset.cat; $$("[data-cat]", bar).forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); draw(); });
     draw();
@@ -311,7 +355,7 @@
       var list = visible(DATA.campaigns);
       el.innerHTML = list.length ? '<div class="card-list">' + list.map(function (c) {
         return '<article class="card"><div class="badge-row"><span class="badge">' + esc(c.status) + "</span>" + sampleBadge(c) + "</div><h3>" + esc(c.title) + "</h3><p>" + esc(c.description) + '</p><span class="small">' + esc(c.period) + "</span></article>";
-      }).join("") + "</div>" : '<div class="empty"><strong>No collection campaign running right now</strong>You can still tell us about books you’d like to donate.</div>';
+      }).join("") + "</div>" : comingSoon("books", "Our first book drive is coming soon");
     });
   }
   function faqs() {
@@ -410,6 +454,7 @@
     var box = document.createElement("div");
     box.innerHTML = tpl ? tpl.innerHTML : '<div class="form-success"><h3 tabindex="-1">Thank you</h3><p>We’ve received your message and will reply by email.</p></div>';
     form.replaceWith(box);
+    fillFollow(box);
     var h = $("[tabindex='-1']", box); if (h) h.focus();
   }
   function bindForm(form) {

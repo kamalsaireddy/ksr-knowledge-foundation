@@ -31,7 +31,7 @@ window.KSR_CONFIG = {
     // { label: "YouTube", url: "https://www.youtube.com/@yourchannel" },
     // { label: "Instagram", url: "https://www.instagram.com/yourhandle" }, // remove // and add a comma after it to switch on
     // LinkedIn company page. If you change its public URL on LinkedIn, update this link too.
-    { label: "LinkedIn", url: "https://www.linkedin.com/company/kamal-by-kamal/" }
+    { label: "LinkedIn", url: "https://www.linkedin.com/company/ksrknowledgefoundation/" }
   ],
 
   /* ---------- Forms ----------
@@ -47,5 +47,5 @@ window.KSR_CONFIG = {
 
   // true = show items marked `sample: true` in content.js (with a "Sample" label).
   // Set to false once you have real content.
-  showSamples: true
+  showSamples: false
 };

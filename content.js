@@ -188,3 +188,38 @@ window.KSR_CONTENT = {
 /* Category lists used by the filters. Add a new category here before using it above. */
 window.KSR_EVENT_CATEGORIES = ["English-speaking circle", "Book collection drive", "Book distribution", "Career guidance", "Resume & mock interview", "Student meetup", "Volunteer orientation", "Online awareness session"];
 window.KSR_VIDEO_CATEGORIES = ["Career Opportunities", "Job & Internship Updates", "English Learning", "Interview Preparation", "Scholarships & Education", "Digital Skills", "Community Stories", "Awareness & Public Resources"];
+
+/* ---------- "Coming soon" messages ----------
+   Shown wherever a section has no real content yet (and when someone taps a
+   learning-hub topic). Edit the quotes freely. Leave `by` empty ("") for our own lines. */
+window.KSR_COMING_SOON = {
+  title: "Coming soon",
+  message: "Stay tuned: together, we’ll change the world.",
+  quotes: {
+    "default": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "events": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "opportunities": { text: "Arise, awake, and stop not till the goal is reached.", by: "Swami Vivekananda" },
+    "books": { text: "A book you’ve finished can be someone else’s beginning.", by: "" },
+    "impact": { text: "Dream, dream, dream. Dreams transform into thoughts and thoughts result in action.", by: "A. P. J. Abdul Kalam" },
+    "videos": { text: "Education is the most powerful weapon which you can use to change the world.", by: "Nelson Mandela" },
+    "Career Opportunities": { text: "Arise, awake, and stop not till the goal is reached.", by: "Swami Vivekananda" },
+    "Job & Internship Updates": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "English Learning": { text: "Every confident speaker was once a nervous beginner who kept practising.", by: "" },
+    "Interview Preparation": { text: "Excellence is a continuous process and not an accident.", by: "A. P. J. Abdul Kalam" },
+    "Scholarships & Education": { text: "Education is the most powerful weapon which you can use to change the world.", by: "Nelson Mandela" },
+    "Digital Skills": { text: "The skills you learn today open the doors you walk through tomorrow.", by: "" },
+    "Community Stories": { text: "Small steps, taken together, travel far.", by: "" },
+    "Awareness & Public Resources": { text: "Knowledge is power.", by: "Francis Bacon" }
+  },
+  // Short descriptions for the learning-hub topic tiles
+  topics: {
+    "Career Opportunities": "Where to look, what to apply for, and how to stand out.",
+    "Job & Internship Updates": "Verified openings explained in a few minutes.",
+    "English Learning": "Everyday and workplace English, one small lesson at a time.",
+    "Interview Preparation": "Common questions, how to answer them, and practice tips.",
+    "Scholarships & Education": "How to find and apply for scholarships and courses.",
+    "Digital Skills": "Practical computer and online skills for study and work.",
+    "Community Stories": "Real journeys from people in our community.",
+    "Awareness & Public Resources": "Government schemes and public services, explained simply."
+  }
+};
