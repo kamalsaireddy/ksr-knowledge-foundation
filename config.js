@@ -14,7 +14,7 @@ window.KSR_CONFIG = {
 
   // Leave empty ("") to hide. Only fill in once confirmed.
   location: "",                       // e.g. "Hyderabad, Telangana, India"
-  email: "",                          // e.g. "hello@yourdomain.org" — until set, contact links are hidden
+  email: "ksrknowledgefoundation@gmail.com",
 
   founder: {
     name: "Kamal Sai Reddy",
@@ -40,8 +40,8 @@ window.KSR_CONFIG = {
                "formspree" → set formspreeEndpoint, e.g. "https://formspree.io/f/abcdwxyz"
      See README.md, section "Making the forms work". */
   forms: {
-    provider: "none",
-    web3formsKey: "",
+    provider: "web3forms",
+    web3formsKey: "PASTE-YOUR-ACCESS-KEY-HERE",   // from the Web3Forms email, keep the quotes
     formspreeEndpoint: ""
   },
 

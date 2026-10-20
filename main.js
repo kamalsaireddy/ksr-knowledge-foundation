@@ -471,7 +471,7 @@
       var data = collect(form);
       var fc = CFG.forms || {};
       var alt = CFG.email ? ' <a href="' + mailtoFor(name, data) + '">Email your details to us instead</a>.' : " Please try again later.";
-      if (fc.provider === "none" || !fc.provider || (fc.provider === "web3forms" && !fc.web3formsKey) || (fc.provider === "formspree" && !fc.formspreeEndpoint)) {
+      if (fc.provider === "none" || !fc.provider || (fc.provider === "web3forms" && (!fc.web3formsKey || /PASTE/.test(fc.web3formsKey))) || (fc.provider === "formspree" && !fc.formspreeEndpoint)) {
         setStatus(form, "is-notice", "Online sending isn’t switched on yet, so this form can’t send your details." + (CFG.email ? alt.replace("Email your details to us instead", "Send them by email instead") + " Your email app will open with your answers filled in." : (firstSocial() ? " Please check back soon, or message us on <a href=\"" + esc(firstSocial().url) + "\" target=\"_blank\" rel=\"noopener\">" + esc(firstSocial().label) + "</a>." : " Please check back soon.")));
         return;
       }
@@ -508,7 +508,7 @@
     fillOrg(); menu(); impact(); events(); videos(); opportunities(); resources(); campaigns(); faqs(); tabs(); prefill();
     $$("form[data-form]").forEach(bindForm);
     var cfgForms = CFG.forms || {};
-    var live = cfgForms.provider === "web3forms" ? !!cfgForms.web3formsKey : cfgForms.provider === "formspree" ? !!cfgForms.formspreeEndpoint : false;
+    var live = cfgForms.provider === "web3forms" ? !!cfgForms.web3formsKey && !/PASTE/.test(cfgForms.web3formsKey) : cfgForms.provider === "formspree" ? !!cfgForms.formspreeEndpoint : false;
     $$("[data-requires-forms]").forEach(function (el) { el.hidden = !live; });
   });
 })();
