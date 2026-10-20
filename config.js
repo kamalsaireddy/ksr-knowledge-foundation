@@ -22,8 +22,8 @@ window.KSR_CONFIG = {
     photo: "founder.jpg",
     bio: "Kamal Sai started KSR Knowledge Foundation to share the knowledge, resources and opportunities he believes every student and job seeker should be able to reach.",
     links: [
+      { label: "LinkedIn", url: "https://www.linkedin.com/in/kamal-sai-reddy" },
       { label: "Portfolio", url: "https://kamalsaireddy.github.io/Portfolio/" }
-      // , { label: "LinkedIn", url: "https://www.linkedin.com/in/your-profile" }
     ]
   },
 

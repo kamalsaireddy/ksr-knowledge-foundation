@@ -341,3 +341,8 @@ dialog .coming-soon { background: transparent; padding: 0; }
 .nav-toggle { flex: none; }
 @media (max-width: 400px) { .brand-name { font-size: .95rem; } }
 @media (max-width: 400px) { .brand-name { white-space: normal; line-height: 1.15; } .brand { min-width: 0; } }
+
+.li-icon { width: 1.15em; height: 1.15em; flex: none; display: inline-block; vertical-align: -0.2em; }
+.icon-link { display: inline-flex; align-items: center; gap: .45rem; margin-right: 1.2rem; }
+.btn .li-icon { width: 1.2em; height: 1.2em; }
+.icon-link { vertical-align: middle; }

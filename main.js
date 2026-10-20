@@ -29,6 +29,8 @@
   function visible(list) { return (list || []).filter(function (x) { return CFG.showSamples || !x.sample; }); }
   function sampleBadge(x) { return x.sample ? '<span class="badge badge-sample">Sample</span>' : ""; }
 
+  var LI_ICON = '<svg class="li-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0A66C2"/><path d="M7.1 9.6h2.3V17H7.1zM8.3 6a1.3 1.3 0 1 1 0 2.7 1.3 1.3 0 0 1 0-2.7zM11 9.6h2.2v1h.1c.3-.6 1.1-1.2 2.2-1.2 2.4 0 2.8 1.6 2.8 3.6V17H16v-3.5c0-.8 0-1.9-1.2-1.9s-1.4.9-1.4 1.8V17H11z" fill="#fff"/></svg>';
+  function withIcon(l) { return (/linkedin\.com/i.test(l.url) ? LI_ICON : "") + esc(l.label); }
   function fillFollow(root) {
     var li = (CFG.social || []).filter(function (l) { return /linkedin\.com/i.test(l.url || "") && safeUrl(l.url); })[0];
     $$("[data-follow-linkedin]", root).forEach(function (el) {
@@ -57,7 +59,7 @@
     });
     $$("[data-founder-links]").forEach(function (el) {
       var links = (f.links || []).filter(function (l) { return safeUrl(l.url); });
-      el.innerHTML = links.map(function (l) { return '<a href="' + esc(l.url) + '" rel="noopener" target="_blank">' + esc(l.label) + "</a>"; }).join(" &nbsp; ");
+      el.innerHTML = links.map(function (l) { return '<a class="icon-link" href="' + esc(l.url) + '" rel="noopener" target="_blank">' + withIcon(l) + "</a>"; }).join("");
       el.hidden = !links.length;
     });
 
@@ -66,7 +68,7 @@
     $$('[data-render="social"]').forEach(function (el) {
       var s = (CFG.social || []).filter(function (l) { return safeUrl(l.url); });
       el.innerHTML = s.length
-        ? s.map(function (l) { return '<li><a href="' + esc(l.url) + '" rel="noopener" target="_blank">' + esc(l.label) + "</a></li>"; }).join("")
+        ? s.map(function (l) { return '<li><a class="icon-link" href="' + esc(l.url) + '" rel="noopener" target="_blank">' + withIcon(l) + "</a></li>"; }).join("")
         : "<li>Social channels coming soon</li>";
     });
   }
@@ -97,7 +99,7 @@
       (q.text ? '<blockquote class="cs-quote"><p>“' + esc(q.text) + '”</p>' + (q.by ? "<footer>" + esc(q.by) + "</footer>" : "") + "</blockquote>" : "") +
       '<p class="cs-message">' + esc(cs.message || "") + "</p>" +
       '<div class="btn-row"><a class="btn btn-primary" href="join.html">Join the community</a>' +
-      (social ? '<a class="btn btn-secondary" href="' + esc(social.url) + '" target="_blank" rel="noopener">Follow on ' + esc(social.label) + "</a>" : "") + "</div></div>";
+      (social ? '<a class="btn btn-secondary" href="' + esc(social.url) + '" target="_blank" rel="noopener">' + (/linkedin\.com/i.test(social.url) ? LI_ICON : "") + "Follow on " + esc(social.label) + "</a>" : "") + "</div></div>";
   }
 
   /* ---------- Impact ---------- */
