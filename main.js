@@ -232,9 +232,17 @@
 
   /* ---------- Videos ---------- */
   var PLAY = '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="currentColor" opacity=".12"/><path d="M19 15l14 9-14 9z" fill="currentColor"/></svg>';
+  var YT_ICON = '<svg class="yt-icon" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#FF0000"/><path d="M11 5.5v9l7.5-4.5z" fill="#fff"/></svg>';
+  function embedSrc(v) { return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(v.youtubeId) + "?rel=0&cc_load_policy=1&cc_lang_pref=en&playsinline=1"; }
+  function player(v) { return '<iframe class="embed' + (v.short ? " embed-short" : "") + '" src="' + embedSrc(v) + '" title="' + esc(v.title) + '" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; }
+  function watchUrl(v) { return "https://www.youtube.com/" + (v.short ? "shorts/" : "watch?v=") + encodeURIComponent(v.youtubeId); }
+  function subscribeBtn() {
+    var ch = safeUrl(CFG.youtubeChannel || ""); if (!ch) return "";
+    return '<a class="btn btn-youtube" href="' + esc(ch.replace(/\/$/, "")) + '?sub_confirmation=1" target="_blank" rel="noopener">' + YT_ICON + "Subscribe on YouTube</a>";
+  }
   function thumb(v) {
     var src = v.thumbnail || (v.youtubeId ? "https://i.ytimg.com/vi/" + encodeURIComponent(v.youtubeId) + "/hqdefault.jpg" : "");
-    return '<div class="video-thumb"' + (src ? ' style="background-image:url(\'' + esc(src) + '\')"' : "") + ">" + (src ? "" : PLAY) + "</div>";
+    return '<div class="video-thumb' + (v.short ? " short" : "") + '"' + (src ? ' style="background-image:url(\'' + esc(src) + '\')"' : "") + ">" + (src ? "" : PLAY) + "</div>";
   }
   function videoCard(v) {
     return '<article class="card">' + thumb(v) + '<div class="badge-row"><span class="badge">' + esc(v.category) + "</span>" + sampleBadge(v) + "</div>" +
@@ -246,12 +254,10 @@
     var all = visible(DATA.videos);
     var related = all.filter(function (x) { return x.category === v.category && x.id !== v.id; }).slice(0, 3);
     var src = (v.sources || []).filter(function (s) { return safeUrl(s.url); });
-    return (v.youtubeId
-      ? '<iframe class="embed" src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.youtubeId) + '" title="' + esc(v.title) + '" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>'
-      : '<div class="video-thumb">' + PLAY + "</div>") +
+    return (v.youtubeId ? player(v) : '<div class="video-thumb">' + PLAY + "</div>") +
       '<div class="badge-row" style="margin-top:1rem"><span class="badge">' + esc(v.category) + "</span>" + sampleBadge(v) + "</div>" +
       '<h2 style="margin-top:.6rem">' + esc(v.title) + "</h2><p>" + esc(v.description) + "</p>" +
-      (v.youtubeId ? '<p><a href="https://www.youtube.com/watch?v=' + encodeURIComponent(v.youtubeId) + '" target="_blank" rel="noopener">Watch on YouTube</a></p>' : '<p class="small">This video hasn’t been published yet.</p>') +
+      (v.youtubeId ? '<div class="btn-row">' + subscribeBtn() + '<a href="' + watchUrl(v) + '" target="_blank" rel="noopener">Watch on YouTube</a></div>' : '<p class="small">This video hasn’t been published yet.</p>') +
       (v.reviewed ? '<p class="small">Information last reviewed ' + fmtDate(v.reviewed) + ". Always confirm details on the official source.</p>" : "") +
       (v.captions ? "<details><summary>Transcript</summary><p>" + esc(v.captions) + "</p></details>" : "") +
       (src.length ? "<h3>Sources</h3><ul>" + src.map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a></li>"; }).join("") + "</ul>" : "") +
@@ -269,11 +275,9 @@
     $$('[data-render="video-featured"]').forEach(function (el) {
       var f = all.filter(function (v) { return v.featured; })[0] || all[0];
       if (!f) { el.innerHTML = comingSoon("videos", "Our first videos are on the way"); return; }
-      el.innerHTML = '<div class="featured-video">' + (f.youtubeId
-        ? '<iframe class="embed" src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(f.youtubeId) + '" title="' + esc(f.title) + '" allowfullscreen loading="lazy"></iframe>'
-        : thumb(f)) +
+      el.innerHTML = '<div class="featured-video' + (f.short ? " short" : "") + '">' + (f.youtubeId ? player(f) : thumb(f)) +
         '<div><div class="badge-row"><span class="badge">' + esc(f.category) + "</span>" + sampleBadge(f) + '</div><h3 style="margin-top:.7rem;font-size:1.5rem">' + esc(f.title) + "</h3><p>" + esc(f.description) + "</p>" +
-        '<a class="btn btn-secondary" href="learn.html">Browse the learning hub</a></div></div>';
+        '<div class="btn-row">' + subscribeBtn() + (/learn\.html$/.test(location.pathname) ? "" : '<a class="btn btn-secondary" href="learn.html">More videos in the learning hub</a>') + "</div></div></div>";
     });
     var page = $('[data-render="videos"]');
     if (!page) return;
@@ -291,16 +295,27 @@
       return;
     }
     bindVideoButtons(document.body);
-    var cats = ["All"].concat(window.KSR_VIDEO_CATEGORIES || []);
+    var used = (window.KSR_VIDEO_CATEGORIES || []).filter(function (c) { return all.some(function (v) { return v.category === c; }); });
+    var upcoming = (window.KSR_VIDEO_CATEGORIES || []).filter(function (c) { return used.indexOf(c) < 0; });
+    var cats = ["All"].concat(used);
     var state = { cat: "All", q: "" };
     var bar = $("[data-video-filters]");
     bar.innerHTML = '<div class="search"><label class="visually-hidden" for="video-search">Search videos</label><input id="video-search" type="search" placeholder="Search videos"></div>' +
-      '<div class="chips" role="group" aria-label="Filter by category">' + cats.map(function (c) { return '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (c === "All") + '">' + esc(c) + "</button>"; }).join("") + "</div>";
+      '<div class="chips" role="group" aria-label="Filter by category">' + cats.map(function (c) { return '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (c === "All") + '">' + esc(c) + "</button>"; }).join("") + "</div>" + (subscribeBtn() ? '<div class="toolbar-end">' + subscribeBtn() + "</div>" : "");
+    var topicsTxt = (window.KSR_COMING_SOON || {}).topics || {};
+    page.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-topic-tile]"); if (!b) return;
+      var c = b.getAttribute("data-topic-tile"); openDialog(comingSoon(c, c), c);
+    });
     function draw() {
       var q = state.q.toLowerCase();
       var list = all.filter(function (v) { return (state.cat === "All" || v.category === state.cat) && (!q || (v.title + " " + v.description).toLowerCase().indexOf(q) > -1); });
-      page.innerHTML = list.length ? '<div class="card-list">' + list.map(videoCard).join("") + "</div>" :
-        '<div class="empty"><strong>No videos match' + (state.q ? " “" + esc(state.q) + "”" : " this category") + "</strong>Try another word or choose All.</div>";
+      var allShort = list.length && list.every(function (v) { return v.short; });
+      page.innerHTML = (list.length ? '<div class="card-list' + (allShort ? " shorts" : "") + '">' + list.map(videoCard).join("") + "</div>" :
+        '<div class="empty"><strong>No videos match' + (state.q ? " “" + esc(state.q) + "”" : " this category") + "</strong>Try another word or choose All.</div>") +
+        (state.cat === "All" && !state.q && upcoming.length ? '<h3 class="mt-2">More topics coming soon</h3><div class="topic-grid">' + upcoming.map(function (c) {
+          return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '"><span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topicsTxt[c] || "") + '</span><span class="badge">Coming soon</span></button>';
+        }).join("") + "</div>" : "");
       $("[data-video-count]").textContent = list.length + (list.length === 1 ? " video" : " videos");
     }
     bar.addEventListener("click", function (e) {

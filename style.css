@@ -346,3 +346,15 @@ dialog .coming-soon { background: transparent; padding: 0; }
 .icon-link { display: inline-flex; align-items: center; gap: .45rem; margin-right: 1.2rem; }
 .btn .li-icon { width: 1.2em; height: 1.2em; }
 .icon-link { vertical-align: middle; }
+
+/* Shorts and YouTube */
+.embed-short { aspect-ratio: 9 / 16; width: 100%; max-width: 340px; display: block; }
+dialog .embed-short { margin: 0 auto; max-height: 70vh; width: auto; height: 70vh; max-width: 100%; }
+.video-thumb.short { aspect-ratio: 9 / 16; background-size: cover; background-position: center; }
+.card-list.shorts { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.featured-video.short { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 2.5rem; }
+@media (max-width: 760px) { .featured-video.short { grid-template-columns: 1fr; } }
+.btn-youtube { background: #FFFFFF; color: #18241F; border-color: var(--line); }
+.btn-youtube:hover { background: #FFF5F5; color: #18241F; border-color: #FF0000; }
+.yt-icon { width: 1.5em; height: 1.1em; flex: none; }
+.toolbar-end { margin-left: auto; }

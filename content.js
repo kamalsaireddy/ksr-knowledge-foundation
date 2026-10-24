@@ -89,6 +89,48 @@ window.KSR_CONTENT = {
      Leave thumbnail empty to use YouTube's own thumbnail. */
   videos: [
     {
+      id: "why-we-started",
+      featured: true,
+      short: true,
+      title: "Why we started: the gap isn’t talent, it’s access",
+      description: "Working in IT, we see capable students and job seekers miss opportunities every day. Here’s what KSR Knowledge Foundation is doing about it.",
+      category: "Community Stories",
+      published: "2026-10-24",
+      youtubeId: "BY3o9aqAgwY",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "tell-me-about-yourself",
+      featured: false,
+      short: true,
+      title: "How to answer “Tell me about yourself” as a fresher",
+      description: "A simple three-step answer: Present, Past, Future. Keep it under a minute and practise it out loud.",
+      category: "Interview Preparation",
+      published: "2026-10-24",
+      youtubeId: "R8zP_46tXIg",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "fake-job-offer",
+      featured: false,
+      short: true,
+      title: "5 signs of a fake job offer",
+      description: "Never pay to get hired. Five red flags to watch for, and what to do before you reply.",
+      category: "Awareness & Public Resources",
+      published: "2026-10-24",
+      youtubeId: "wtXY_z928Rk",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
       id: "welcome-sample",
       sample: true,
       featured: true,

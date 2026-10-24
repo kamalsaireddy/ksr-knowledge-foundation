@@ -34,6 +34,10 @@ window.KSR_CONFIG = {
     { label: "LinkedIn", url: "https://www.linkedin.com/company/ksrknowledgefoundation/" }
   ],
 
+  // YouTube channel for the "Subscribe on YouTube" buttons, e.g. "https://www.youtube.com/@yourhandle"
+  // Leave "" to hide the buttons.
+  youtubeChannel: "",
+
   /* ---------- Forms ----------
      provider: "none"      → forms show an honest notice and offer to email instead (needs `email` above)
                "web3forms" → set web3formsKey (this key is designed to be public)
