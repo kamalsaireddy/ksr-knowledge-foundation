@@ -324,6 +324,14 @@
     });
     $("#video-search").addEventListener("input", function (e) { state.q = e.target.value.trim(); draw(); });
     draw();
+    // Direct links: learn.html#video-id opens that video straight away
+    function openFromHash() {
+      var id = decodeURIComponent((location.hash || "").slice(1));
+      var v = all.filter(function (x) { return x.id === id; })[0];
+      if (v && !(dialog && dialog.open)) openDialog(videoDetail(v), v.title);
+    }
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
   }
 
   /* ---------- Opportunities & resources ---------- */
