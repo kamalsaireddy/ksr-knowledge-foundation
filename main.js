@@ -337,7 +337,9 @@
   /* ---------- Opportunities & resources ---------- */
   function opportunities() {
     var el = $('[data-render="opportunities"]'); if (!el) return;
-    var all = visible(DATA.opportunities);
+    // Listings disappear automatically the day after their deadline (checked in each visitor's browser)
+    var all = visible(DATA.opportunities).filter(function (o) { return !(o.deadline && toDate(o.deadline) < new Date()); })
+      .sort(function (a, b) { return (a.deadline || "9999").localeCompare(b.deadline || "9999"); });
     var types = ["All"].concat(all.map(function (o) { return o.type; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
     var bar = $("[data-opp-filters]"), state = "All";
     bar.innerHTML = '<div class="chips" role="group" aria-label="Filter by type">' + types.map(function (t) { return '<button type="button" class="chip" data-cat="' + esc(t) + '" aria-pressed="' + (t === "All") + '">' + esc(t) + "</button>"; }).join("") + "</div>";
@@ -346,17 +348,17 @@
       var apply = safeUrl(o.applyUrl), source = safeUrl(o.sourceUrl);
       return '<article class="card"><div class="badge-row"><span class="badge">' + esc(o.type) + "</span>" + sampleBadge(o) +
         (o.verified ? '<span class="badge badge-verified">Verified ' + fmtDate(o.verified) + "</span>" : "") +
-        (expired ? '<span class="badge badge-expired">Deadline passed</span>' : "") + "</div>" +
+        (expired ? '<span class="badge badge-expired">Deadline passed</span>' : "") +
+        (!expired && o.deadline && (toDate(o.deadline) - new Date()) < 7 * 864e5 ? '<span class="badge badge-expired">Closing soon</span>' : "") + "</div>" +
         "<h3>" + esc(o.title) + "</h3>" + (o.organisation ? '<span class="small">' + esc(o.organisation) + "</span>" : "") + "<p>" + esc(o.description) + "</p>" +
         '<div class="meta"><span><b>Eligibility:</b> ' + esc(o.eligibility || "See source") + "</span><span><b>Location:</b> " + esc(o.location || "See source") + "</span>" +
-        "<span><b>Deadline:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + "</span></div>" +
+        "<span><b>Deadline:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + (o.deadlineNote ? " (" + esc(o.deadlineNote) + ")" : "") + "</span></div>" +
         '<div class="card-actions">' + (apply && !expired ? '<a class="btn btn-primary" href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") +
         (source ? '<a href="' + esc(source) + '" target="_blank" rel="noopener">View source</a>' : "") +
         (!apply && !source ? '<span class="small">Sample listing: no link</span>' : "") + "</div></article>";
     }
     function draw() {
-      var list = all.filter(function (o) { return state === "All" || o.type === state; })
-        .sort(function (a, b) { var ea = a.deadline && toDate(a.deadline) < new Date(), eb = b.deadline && toDate(b.deadline) < new Date(); return ea - eb; });
+      var list = all.filter(function (o) { return state === "All" || o.type === state; });
       el.innerHTML = list.length ? '<div class="card-list">' + list.map(card).join("") + "</div>" :
         comingSoon("opportunities", "Verified opportunities are coming soon");
       bar.hidden = !all.length;
