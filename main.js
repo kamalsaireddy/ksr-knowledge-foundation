@@ -248,7 +248,8 @@
     return '<article class="card">' + thumb(v) + '<div class="badge-row"><span class="badge">' + esc(v.category) + "</span>" + sampleBadge(v) + "</div>" +
       "<h3>" + esc(v.title) + "</h3><p>" + esc(v.description) + "</p>" +
       (v.published ? '<span class="small">Published ' + fmtDate(v.published) + "</span>" : "") +
-      '<div class="card-actions"><button class="btn btn-secondary" type="button" data-video="' + esc(v.id) + '">' + (v.youtubeId ? "Watch" : "View details") + "</button></div></article>";
+      '<div class="card-actions"><button class="btn btn-secondary" type="button" data-video="' + esc(v.id) + '">' + (v.youtubeId ? "Watch" : "View details") + "</button></div>" +
+      (v.youtubeId && !v.sample ? shareRow(videoShareText(v), pageUrl("learn.html", v.id)) : "") + "</article>";
   }
   function videoDetail(v) {
     var all = visible(DATA.videos);
@@ -257,7 +258,7 @@
     return (v.youtubeId ? player(v) : '<div class="video-thumb">' + PLAY + "</div>") +
       '<div class="badge-row" style="margin-top:1rem"><span class="badge">' + esc(v.category) + "</span>" + sampleBadge(v) + "</div>" +
       '<h2 style="margin-top:.6rem">' + esc(v.title) + "</h2><p>" + esc(v.description) + "</p>" +
-      (v.youtubeId ? '<div class="btn-row">' + subscribeBtn() + '<a href="' + watchUrl(v) + '" target="_blank" rel="noopener">Watch on YouTube</a></div>' : '<p class="small">This video hasn’t been published yet.</p>') +
+      (v.youtubeId ? '<div class="btn-row">' + subscribeBtn() + '<a href="' + watchUrl(v) + '" target="_blank" rel="noopener">Watch on YouTube</a></div>' + shareRow(videoShareText(v), pageUrl("learn.html", v.id)) : '<p class="small">This video hasn’t been published yet.</p>') +
       (v.reviewed ? '<p class="small">Information last reviewed ' + fmtDate(v.reviewed) + ". Always confirm details on the official source.</p>" : "") +
       (v.captions ? "<details><summary>Transcript</summary><p>" + esc(v.captions) + "</p></details>" : "") +
       (src.length ? "<h3>Sources</h3><ul>" + src.map(function (s) { return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a></li>"; }).join("") + "</ul>" : "") +
@@ -346,7 +347,7 @@
     function card(o) {
       var expired = o.deadline && toDate(o.deadline) < new Date();
       var apply = safeUrl(o.applyUrl), source = safeUrl(o.sourceUrl);
-      return '<article class="card"><div class="badge-row"><span class="badge">' + esc(o.type) + "</span>" + sampleBadge(o) +
+      return '<article class="card" id="' + esc(o.id) + '"><div class="badge-row"><span class="badge">' + esc(o.type) + "</span>" + sampleBadge(o) +
         (o.verified ? '<span class="badge badge-verified">Verified ' + fmtDate(o.verified) + "</span>" : "") +
         (expired ? '<span class="badge badge-expired">Deadline passed</span>' : "") +
         (!expired && o.deadline && (toDate(o.deadline) - new Date()) < 7 * 864e5 ? '<span class="badge badge-expired">Closing soon</span>' : "") + "</div>" +
@@ -355,7 +356,8 @@
         "<span><b>Deadline:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + (o.deadlineNote ? " (" + esc(o.deadlineNote) + ")" : "") + "</span></div>" +
         '<div class="card-actions">' + (apply && !expired ? '<a class="btn btn-primary" href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") +
         (source ? '<a href="' + esc(source) + '" target="_blank" rel="noopener">View source</a>' : "") +
-        (!apply && !source ? '<span class="small">Sample listing: no link</span>' : "") + "</div></article>";
+        (!apply && !source ? '<span class="small">Sample listing: no link</span>' : "") + "</div>" +
+        (!o.sample && !expired ? shareRow(oppShareText(o), pageUrl("opportunities.html", o.id)) : "") + "</article>";
     }
     function draw() {
       var list = all.filter(function (o) { return state === "All" || o.type === state; });
@@ -365,6 +367,14 @@
     }
     bar.addEventListener("click", function (e) { var b = e.target.closest("[data-cat]"); if (!b) return; state = b.dataset.cat; $$("[data-cat]", bar).forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); draw(); });
     draw();
+    // Shared links (opportunities.html#id) jump to that listing and highlight it
+    function focusFromHash() {
+      var id = decodeURIComponent((location.hash || "").slice(1)); if (!id) return;
+      var t = document.getElementById(id); if (!t || !t.classList.contains("card")) return;
+      t.classList.add("is-highlight"); t.scrollIntoView({ block: "center" });
+      setTimeout(function () { t.classList.remove("is-highlight"); }, 4000);
+    }
+    focusFromHash(); window.addEventListener("hashchange", focusFromHash);
   }
   function resources() {
     $$('[data-render="resources"]').forEach(function (el) {
@@ -529,6 +539,21 @@
     });
   }
 
+  /* ---------- Share buttons (WhatsApp, LinkedIn) ---------- */
+  var WA_ICON = '<svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#25D366"/><path d="M17.2 14.3c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.5-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z" fill="#fff"/><path d="M12 4.6a7.4 7.4 0 0 0-6.4 11.1L4.6 19.4l3.8-1a7.4 7.4 0 1 0 3.6-13.8z" fill="none" stroke="#fff" stroke-width="1.3"/></svg>';
+  function pageUrl(page, id) { var u = new URL(page, location.href); u.hash = id ? "#" + id : ""; u.search = ""; return u.href; }
+  function shareRow(text, url) {
+    var wa = "https://wa.me/?text=" + encodeURIComponent(text + "\n" + url);
+    var li = "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(url);
+    return '<div class="share-row"><span class="share-label">Share</span>' +
+      '<a class="share-btn" href="' + wa + '" target="_blank" rel="noopener" aria-label="Share on WhatsApp">' + WA_ICON + "WhatsApp</a>" +
+      '<a class="share-btn" href="' + li + '" target="_blank" rel="noopener" aria-label="Share on LinkedIn">' + LI_ICON + "LinkedIn</a></div>";
+  }
+  function oppShareText(o) {
+    return "📢 " + o.title + (o.deadline ? "\n🗓️ Last date: " + fmtDate(o.deadline) : "") + "\n✅ Verified by KSR Knowledge Foundation. Apply only on the official website, never pay an agent.\nDetails and official link:";
+  }
+  function videoShareText(v) { return "▶️ " + v.title + "\nA short, free video from KSR Knowledge Foundation:"; }
+
   /* ---------- Home: latest opportunities ---------- */
   function opportunitiesPreview() {
     $$('[data-render="opportunities-preview"]').forEach(function (el) {
@@ -541,7 +566,8 @@
         var apply = safeUrl(o.applyUrl) || safeUrl(o.sourceUrl);
         return '<li><span class="badge">' + esc(o.type) + '</span><span class="opp-mini-title">' + esc(o.title) + "</span>" +
           '<span class="opp-mini-date' + (soon ? " soon" : "") + '">' + (soon ? "Closes " : "Last date ") + fmtDate(o.deadline) + "</span>" +
-          (apply ? '<a href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") + "</li>";
+          (apply ? '<a href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") +
+          '<a class="share-mini" href="https://wa.me/?text=' + encodeURIComponent(oppShareText(o) + "\n" + pageUrl("opportunities.html", o.id)) + '" target="_blank" rel="noopener" aria-label="Share ' + esc(o.title) + ' on WhatsApp">' + WA_ICON + "</a></li>";
       }).join("") + "</ul>";
     });
   }

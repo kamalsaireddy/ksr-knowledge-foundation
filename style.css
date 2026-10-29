@@ -366,3 +366,16 @@ dialog .embed-short { margin: 0 auto; max-height: 70vh; width: auto; height: 70v
 .opp-mini-date { font-size: .92rem; color: var(--muted); white-space: nowrap; }
 .opp-mini-date.soon { color: var(--danger); font-weight: 600; }
 @media (max-width: 760px) { .opp-mini li { grid-template-columns: 1fr; gap: .35rem; } }
+
+/* Share buttons */
+.share-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; padding-top: .8rem; margin-top: .4rem; border-top: 1px dashed var(--line); }
+.share-label { font-size: .85rem; color: var(--muted); margin-right: .2rem; }
+.share-btn { display: inline-flex; align-items: center; gap: .4rem; font-size: .88rem; font-weight: 600; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: .35rem .8rem; background: var(--white); }
+.share-btn:hover { border-color: var(--teal); color: var(--forest); }
+.share-icon { width: 1.2em; height: 1.2em; flex: none; }
+.share-btn .li-icon { width: 1.15em; height: 1.15em; }
+.share-mini { display: inline-flex; padding: .3rem; border-radius: 50%; }
+.share-mini .share-icon { width: 1.6rem; height: 1.6rem; }
+.opp-mini li { grid-template-columns: auto 1fr auto auto auto; }
+@media (max-width: 760px) { .opp-mini li { grid-template-columns: 1fr; } .share-mini { justify-self: start; } }
+.card.is-highlight { box-shadow: 0 0 0 3px var(--marigold); transition: box-shadow .3s; }
