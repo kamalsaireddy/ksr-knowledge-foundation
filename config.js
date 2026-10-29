@@ -40,7 +40,7 @@ window.KSR_CONFIG = {
 
   // Visitor statistics with GoatCounter (free, no cookies). Put your GoatCounter code here,
   // e.g. "ksrknowledge" for https://ksrknowledge.goatcounter.com. Leave "" to switch off.
-  goatcounter: "",
+  goatcounter: "ksrknowledgefoundation",
 
   /* ---------- Forms ----------
      provider: "none"      → forms show an honest notice and offer to email instead (needs `email` above)
