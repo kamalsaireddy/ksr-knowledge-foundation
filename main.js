@@ -107,7 +107,7 @@
     var anyImpact = (DATA.impact || []).some(function (i) { return typeof i.value === "number"; });
     $$('[data-render="impact"]').forEach(function (el) {
       if (!anyImpact) { el.classList.remove("impact"); el.innerHTML = comingSoon("impact", "Our first numbers are on the way"); return; }
-      el.innerHTML = (DATA.impact || []).map(function (i) {
+      el.innerHTML = (DATA.impact || []).filter(function (i) { return typeof i.value === "number"; }).map(function (i) {
         var has = typeof i.value === "number";
         return '<div><span class="num' + (has ? "" : " pending") + '">' + (has ? i.value.toLocaleString("en-IN") : "To be updated") +
           '</span><span class="label">' + esc(i.label) + "</span></div>";
@@ -529,7 +529,35 @@
     });
   }
 
+  /* ---------- Home: latest opportunities ---------- */
+  function opportunitiesPreview() {
+    $$('[data-render="opportunities-preview"]').forEach(function (el) {
+      var list = visible(DATA.opportunities).filter(function (o) { return o.deadline && !(toDate(o.deadline) < new Date()); })
+        .sort(function (a, b) { return a.deadline.localeCompare(b.deadline); }).slice(0, 3);
+      var wrap = el.closest("section");
+      if (!list.length) { if (wrap) wrap.hidden = true; return; }
+      el.innerHTML = '<ul class="opp-mini">' + list.map(function (o) {
+        var soon = (toDate(o.deadline) - new Date()) < 7 * 864e5;
+        var apply = safeUrl(o.applyUrl) || safeUrl(o.sourceUrl);
+        return '<li><span class="badge">' + esc(o.type) + '</span><span class="opp-mini-title">' + esc(o.title) + "</span>" +
+          '<span class="opp-mini-date' + (soon ? " soon" : "") + '">' + (soon ? "Closes " : "Last date ") + fmtDate(o.deadline) + "</span>" +
+          (apply ? '<a href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") + "</li>";
+      }).join("") + "</ul>";
+    });
+  }
+
+  /* ---------- Visitor statistics (GoatCounter, no cookies) ---------- */
+  function analytics() {
+    var code = (CFG.goatcounter || "").trim();
+    if (!/^[a-z0-9-]+$/i.test(code)) return;
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://gc.zgo.at/count.js";
+    s.setAttribute("data-goatcounter", "https://" + code + ".goatcounter.com/count");
+    document.head.appendChild(s);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    opportunitiesPreview(); analytics();
     fillOrg(); menu(); impact(); events(); videos(); opportunities(); resources(); campaigns(); faqs(); tabs(); prefill();
     $$("form[data-form]").forEach(bindForm);
     var cfgForms = CFG.forms || {};

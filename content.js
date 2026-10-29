@@ -11,15 +11,17 @@ window.KSR_CONTENT = {
   /* ---------- Impact numbers ----------
      Use real, recorded numbers only. null shows "To be updated". */
   impact: [
+    { label: "Videos published", value: 3 },
+    { label: "Verified opportunities shared", value: 7 },
     { label: "Books collected", value: null },
     { label: "Books distributed", value: null },
     { label: "Students reached", value: null },
     { label: "Volunteers engaged", value: null },
     { label: "English practice sessions", value: null },
-    { label: "Videos and resources published", value: null },
     { label: "Community events held", value: null }
   ],
-  impactUpdated: "", // e.g. "2026-12-01"
+  // Only numbers you fill in are shown; items left as null stay hidden until you have real figures.
+  impactUpdated: "2026-10-28",
 
   /* ---------- Events ----------
      status: "open" (registration open), "closed", "full", "draft" (not confirmed yet)

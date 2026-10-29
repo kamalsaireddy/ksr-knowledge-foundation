@@ -38,6 +38,10 @@ window.KSR_CONFIG = {
   // Leave "" to hide the buttons.
   youtubeChannel: "",
 
+  // Visitor statistics with GoatCounter (free, no cookies). Put your GoatCounter code here,
+  // e.g. "ksrknowledge" for https://ksrknowledge.goatcounter.com. Leave "" to switch off.
+  goatcounter: "",
+
   /* ---------- Forms ----------
      provider: "none"      → forms show an honest notice and offer to email instead (needs `email` above)
                "web3forms" → set web3formsKey (this key is designed to be public)

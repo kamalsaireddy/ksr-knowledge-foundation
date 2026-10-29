@@ -358,3 +358,11 @@ dialog .embed-short { margin: 0 auto; max-height: 70vh; width: auto; height: 70v
 .btn-youtube:hover { background: #FFF5F5; color: #18241F; border-color: #FF0000; }
 .yt-icon { width: 1.5em; height: 1.1em; flex: none; }
 .toolbar-end { margin-left: auto; }
+
+/* Home: latest opportunities */
+.opp-mini { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.opp-mini li { display: grid; grid-template-columns: auto 1fr auto auto; gap: .6rem 1.2rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--line); margin: 0; }
+.opp-mini-title { font-weight: 600; color: var(--forest); }
+.opp-mini-date { font-size: .92rem; color: var(--muted); white-space: nowrap; }
+.opp-mini-date.soon { color: var(--danger); font-weight: 600; }
+@media (max-width: 760px) { .opp-mini li { grid-template-columns: 1fr; gap: .35rem; } }
