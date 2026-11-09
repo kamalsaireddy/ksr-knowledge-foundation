@@ -12,7 +12,7 @@ window.KSR_CONTENT = {
      Use real, recorded numbers only. null shows "To be updated". */
   impact: [
     { label: "Videos published", value: 3 },
-    { label: "Verified opportunities shared", value: 7 },
+    { label: "Verified opportunities shared", value: 11 },
     { label: "Books collected", value: null },
     { label: "Books distributed", value: null },
     { label: "Students reached", value: null },
@@ -21,7 +21,7 @@ window.KSR_CONTENT = {
     { label: "Community events held", value: null }
   ],
   // Only numbers you fill in are shown; items left as null stay hidden until you have real figures.
-  impactUpdated: "2026-10-28",
+  impactUpdated: "2026-11-09",
 
   /* ---------- Events ----------
      status: "open" (registration open), "closed", "full", "draft" (not confirmed yet)
@@ -181,34 +181,6 @@ window.KSR_CONTENT = {
      verified: the date YOU checked it. deadline: "" if none. */
   opportunities: [
     {
-      id: "nsp-2026-27",
-      type: "Scholarship",
-      title: "National Scholarship Portal (NSP) 2026-27",
-      organisation: "Government of India",
-      description: "One portal for central and many state scholarships: pre-matric, post-matric, merit and AICTE schemes. One Time Registration (OTR) is needed first.",
-      eligibility: "Depends on the scheme (Class 1 to PhD). Check your scheme’s rules on the portal",
-      location: "All India (online)",
-      deadline: "2026-10-31",
-      deadlineNote: "most schemes; some close earlier",
-      sourceUrl: "https://scholarships.gov.in/",
-      applyUrl: "https://scholarships.gov.in/",
-      verified: "2026-10-28"
-    },
-    {
-      id: "rrb-ntpc-graduate-2026",
-      type: "Job",
-      title: "RRB NTPC Graduate Level (CEN 06/2026): 3,548 posts",
-      organisation: "Railway Recruitment Boards, Indian Railways",
-      description: "Non-technical railway posts such as Goods Train Manager, Junior Accounts Assistant-cum-Typist and Senior Clerk-cum-Typist.",
-      eligibility: "Graduates (age limits and post-wise rules in the official notification)",
-      location: "All India",
-      deadline: "2026-11-06",
-      deadlineNote: "11:59 pm; fee by 8 Nov",
-      sourceUrl: "https://rrb.indianrailways.gov.in/",
-      applyUrl: "https://www.rrbapply.gov.in/",
-      verified: "2026-10-28"
-    },
-    {
       id: "sbi-sco-30-2026",
       type: "Job",
       title: "SBI Specialist Cadre Officers, fixed term (CRPD/SCO/2026-27/30)",
@@ -249,6 +221,62 @@ window.KSR_CONTENT = {
       sourceUrl: "https://rrb.indianrailways.gov.in/",
       applyUrl: "https://www.rrbapply.gov.in/",
       verified: "2026-10-28"
+    },
+    {
+      id: "tgpsc-aso-mpso-2026",
+      type: "Job",
+      title: "TGPSC Assistant Statistical Officer & MPSO: 102 posts",
+      organisation: "Telangana Public Service Commission",
+      description: "Telangana state government posts of Assistant Statistical Officer and Mandal Planning and Statistical Officer. Pay scale ₹36,750–₹1,06,990.",
+      eligibility: "Graduates; subject requirements and age limits in the official TGPSC notification. OTR registration needed",
+      location: "Telangana",
+      deadline: "2026-11-27",
+      deadlineNote: "",
+      sourceUrl: "https://www.tgpsc.gov.in/",
+      applyUrl: "https://www.tgpsc.gov.in/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "iocl-pipelines-apprentice-2026",
+      type: "Internship",
+      title: "IOCL Pipelines Apprentice: about 500 seats",
+      organisation: "Indian Oil Corporation Limited (Pipelines Division)",
+      description: "12-month apprenticeship with stipend as per the Apprentices Act: Technician Apprentice, Trade Apprentice (Accountant, Assistant-HR) or Data Entry Operator. Selection on merit, no written exam.",
+      eligibility: "12th pass, ITI, diploma or graduates; age 18–24 as on 30 Nov 2026. Register on NATS/NAPS first",
+      location: "Across India (5 Pipelines regions)",
+      deadline: "2026-12-05",
+      deadlineNote: "",
+      sourceUrl: "https://iocl.com/",
+      applyUrl: "https://iocl.com/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "dsssb-mts-je-2026",
+      type: "Job",
+      title: "DSSSB MTS & Junior Engineer: 1,260 posts",
+      organisation: "Delhi Subordinate Services Selection Board",
+      description: "1,075 Multi-Tasking Staff and 185 Junior Engineer (Electrical) posts in Delhi Government departments. Applications open from 12 November.",
+      eligibility: "MTS: Class 10 pass. JE: as per notification",
+      location: "Delhi",
+      deadline: "2026-12-11",
+      deadlineNote: "opens 12 Nov, 12 noon",
+      sourceUrl: "https://dsssb.delhi.gov.in/",
+      applyUrl: "https://dsssbonline.nic.in/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "hdfc-parivartan-ecss-2026-27",
+      type: "Scholarship",
+      title: "HDFC Bank Parivartan ECSS Scholarship 2026-27",
+      organisation: "HDFC Bank Parivartan",
+      description: "Need-based scholarship of up to ₹75,000 for students from Class 1 to postgraduate, including diploma, ITI and polytechnic. Applications are taken through the Buddy4Study portal.",
+      eligibility: "Students at recognised institutions in India; income and marks criteria apply",
+      location: "All India (online)",
+      deadline: "2026-12-15",
+      deadlineNote: "school, UG and PG forms",
+      sourceUrl: "https://www.buddy4study.com/article/parivartan-ecss-programme",
+      applyUrl: "https://www.buddy4study.com/article/parivartan-ecss-programme",
+      verified: "2026-11-09"
     },
     {
       id: "pm-internship-round-3",
