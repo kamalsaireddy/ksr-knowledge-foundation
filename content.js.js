@@ -1,0 +1,395 @@
+/* ============================================================
+   WEBSITE CONTENT — videos, events, opportunities, resources,
+   book campaigns, impact numbers and FAQs.
+   How to edit: see CONTENT-GUIDE.md. Keep commas between items.
+   Dates use the format "YYYY-MM-DD" or "YYYY-MM-DDTHH:MM".
+   Never put anyone's private phone number or address in this file:
+   it is public.
+   ============================================================ */
+window.KSR_CONTENT = {
+
+  /* ---------- Impact numbers ----------
+     Use real, recorded numbers only. null shows "To be updated". */
+  impact: [
+    { label: "Videos published", value: 3 },
+    { label: "Verified opportunities shared", value: 11 },
+    { label: "Books collected", value: null },
+    { label: "Books distributed", value: null },
+    { label: "Students reached", value: null },
+    { label: "Volunteers engaged", value: null },
+    { label: "English practice sessions", value: null },
+    { label: "Community events held", value: null }
+  ],
+  // Only numbers you fill in are shown; items left as null stay hidden until you have real figures.
+  impactUpdated: "2026-11-09",
+
+  /* ---------- Events ----------
+     status: "open" (registration open), "closed", "full", "draft" (not confirmed yet)
+     category must be one of: English-speaking circle, Book collection drive,
+     Book distribution, Career guidance, Resume & mock interview, Student meetup,
+     Volunteer orientation, Online awareness session */
+  events: [
+    {
+      id: "english-circle-sample",
+      sample: true,
+      status: "draft",
+      title: "English-speaking circle for beginners",
+      category: "English-speaking circle",
+      description: "A relaxed group conversation for people who understand English but feel shy speaking it. Short topics, small groups, no judgement.",
+      start: "2026-11-21T10:30",
+      end: "2026-11-21T12:00",
+      timezone: "IST (UTC+5:30)",
+      venue: "Venue to be confirmed",
+      online: false,
+      meetingLink: "",
+      registrationDeadline: "2026-11-19",
+      capacity: 20,
+      accessibility: "Details will be shared when the venue is confirmed.",
+      organiserEmail: ""
+    },
+    {
+      id: "resume-workshop-sample",
+      sample: true,
+      status: "draft",
+      title: "Resume basics: your first one-page resume",
+      category: "Resume & mock interview",
+      description: "Bring a draft or start from nothing. We go through what recruiters look for in a fresher resume and help each other improve one section at a time.",
+      start: "2026-12-05T16:00",
+      end: "2026-12-05T17:30",
+      timezone: "IST (UTC+5:30)",
+      venue: "Online",
+      online: true,
+      meetingLink: "",
+      registrationDeadline: "2026-12-03",
+      capacity: 40,
+      accessibility: "Online session. Captions will be switched on where the platform allows.",
+      organiserEmail: ""
+    },
+    {
+      id: "book-drive-sample-past",
+      sample: true,
+      status: "closed",
+      title: "Sample past event: book collection drive",
+      category: "Book collection drive",
+      description: "This sample shows how a finished event appears in the Past events list.",
+      start: "2026-09-12T10:00",
+      end: "2026-09-12T13:00",
+      timezone: "IST (UTC+5:30)",
+      venue: "Sample venue",
+      online: false,
+      meetingLink: "",
+      registrationDeadline: "2026-09-10",
+      capacity: null,
+      accessibility: "",
+      organiserEmail: ""
+    }
+  ],
+
+  /* ---------- Videos ----------
+     youtubeId is the code after "watch?v=" in a YouTube link.
+     For https://www.youtube.com/watch?v=abc123XYZ the youtubeId is "abc123XYZ".
+     Leave thumbnail empty to use YouTube's own thumbnail. */
+  videos: [
+    {
+      id: "why-we-started",
+      featured: true,
+      short: true,
+      title: "Why we started: the gap isn’t talent, it’s access",
+      description: "Working in IT, we see capable students and job seekers miss opportunities every day. Here’s what KSR Knowledge Foundation is doing about it.",
+      category: "Community Stories",
+      published: "2026-10-24",
+      youtubeId: "BY3o9aqAgwY",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "tell-me-about-yourself",
+      featured: false,
+      short: true,
+      title: "How to answer “Tell me about yourself” as a fresher",
+      description: "A simple three-step answer: Present, Past, Future. Keep it under a minute and practise it out loud.",
+      category: "Interview Preparation",
+      published: "2026-10-24",
+      youtubeId: "R8zP_46tXIg",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "fake-job-offer",
+      featured: false,
+      short: true,
+      title: "5 signs of a fake job offer",
+      description: "Never pay to get hired. Five red flags to watch for, and what to do before you reply.",
+      category: "Awareness & Public Resources",
+      published: "2026-10-24",
+      youtubeId: "wtXY_z928Rk",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "welcome-sample",
+      sample: true,
+      featured: true,
+      title: "Why we started: knowledge, language and opportunity",
+      description: "An introduction to the three initiatives and how you can take part. Replace this sample with your first published video.",
+      category: "Community Stories",
+      published: "",
+      youtubeId: "",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "interview-intro-sample",
+      sample: true,
+      featured: false,
+      title: "Answering “Tell me about yourself” as a fresher",
+      description: "Sample entry. A short guide to structuring your introduction in an interview.",
+      category: "Interview Preparation",
+      published: "",
+      youtubeId: "",
+      thumbnail: "",
+      sources: [],
+      captions: "",
+      reviewed: ""
+    },
+    {
+      id: "scholarship-portal-sample",
+      sample: true,
+      featured: false,
+      title: "How to use the National Scholarship Portal",
+      description: "Sample entry. Time-sensitive content like this should always show a last-reviewed date.",
+      category: "Scholarships & Education",
+      published: "",
+      youtubeId: "",
+      thumbnail: "",
+      sources: [{ label: "National Scholarship Portal", url: "https://scholarships.gov.in/" }],
+      captions: "",
+      reviewed: ""
+    }
+  ],
+
+  /* ---------- Opportunities ----------
+     Only add opportunities you have checked on the official source.
+     verified: the date YOU checked it. deadline: "" if none. */
+  opportunities: [
+    {
+      id: "sbi-sco-30-2026",
+      type: "Job",
+      title: "SBI Specialist Cadre Officers, fixed term (CRPD/SCO/2026-27/30)",
+      organisation: "State Bank of India",
+      description: "Specialist officer roles on a fixed-term basis. Read the advertisement for posts, experience and pay.",
+      eligibility: "Experienced professionals; see the advertisement for each post",
+      location: "As per advertisement",
+      deadline: "2026-11-09",
+      deadlineNote: "",
+      sourceUrl: "https://sbi.bank.in/web/careers/current-openings",
+      applyUrl: "https://recruitment.sbi.bank.in/crpd-sco-2026-27-30/apply",
+      verified: "2026-10-28"
+    },
+    {
+      id: "niti-aayog-internship-nov-2026",
+      type: "Internship",
+      title: "NITI Aayog Internship: November application window",
+      organisation: "NITI Aayog, Government of India",
+      description: "Unpaid policy internship in New Delhi for 6 weeks to 6 months. Applications open only from the 1st to 10th of each month; the November window is for internships starting around January 2027.",
+      eligibility: "UG students who have completed 2nd year/4th semester (with 85% in Class 12), PG students and research scholars; see official rules",
+      location: "New Delhi (on-site)",
+      deadline: "2026-11-10",
+      deadlineNote: "window 1–10 November",
+      sourceUrl: "https://www.niti.gov.in/",
+      applyUrl: "https://workforindia.niti.gov.in/",
+      verified: "2026-10-28"
+    },
+    {
+      id: "rrb-ntpc-ug-2026",
+      type: "Job",
+      title: "RRB NTPC Undergraduate Level (CEN 07/2026): 1,688 posts",
+      organisation: "Railway Recruitment Boards, Indian Railways",
+      description: "Non-technical railway posts for candidates who have passed Class 12.",
+      eligibility: "Class 12 pass (age limits and post-wise rules in the official notification)",
+      location: "All India",
+      deadline: "2026-11-13",
+      deadlineNote: "11:59 pm; fee by 15 Nov",
+      sourceUrl: "https://rrb.indianrailways.gov.in/",
+      applyUrl: "https://www.rrbapply.gov.in/",
+      verified: "2026-10-28"
+    },
+    {
+      id: "tgpsc-aso-mpso-2026",
+      type: "Job",
+      title: "TGPSC Assistant Statistical Officer & MPSO: 102 posts",
+      organisation: "Telangana Public Service Commission",
+      description: "Telangana state government posts of Assistant Statistical Officer and Mandal Planning and Statistical Officer. Pay scale ₹36,750–₹1,06,990.",
+      eligibility: "Graduates; subject requirements and age limits in the official TGPSC notification. OTR registration needed",
+      location: "Telangana",
+      deadline: "2026-11-27",
+      deadlineNote: "",
+      sourceUrl: "https://www.tgpsc.gov.in/",
+      applyUrl: "https://www.tgpsc.gov.in/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "iocl-pipelines-apprentice-2026",
+      type: "Internship",
+      title: "IOCL Pipelines Apprentice: about 500 seats",
+      organisation: "Indian Oil Corporation Limited (Pipelines Division)",
+      description: "12-month apprenticeship with stipend as per the Apprentices Act: Technician Apprentice, Trade Apprentice (Accountant, Assistant-HR) or Data Entry Operator. Selection on merit, no written exam.",
+      eligibility: "12th pass, ITI, diploma or graduates; age 18–24 as on 30 Nov 2026. Register on NATS/NAPS first",
+      location: "Across India (5 Pipelines regions)",
+      deadline: "2026-12-05",
+      deadlineNote: "",
+      sourceUrl: "https://iocl.com/",
+      applyUrl: "https://iocl.com/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "dsssb-mts-je-2026",
+      type: "Job",
+      title: "DSSSB MTS & Junior Engineer: 1,260 posts",
+      organisation: "Delhi Subordinate Services Selection Board",
+      description: "1,075 Multi-Tasking Staff and 185 Junior Engineer (Electrical) posts in Delhi Government departments. Applications open from 12 November.",
+      eligibility: "MTS: Class 10 pass. JE: as per notification",
+      location: "Delhi",
+      deadline: "2026-12-11",
+      deadlineNote: "opens 12 Nov, 12 noon",
+      sourceUrl: "https://dsssb.delhi.gov.in/",
+      applyUrl: "https://dsssbonline.nic.in/",
+      verified: "2026-11-09"
+    },
+    {
+      id: "hdfc-parivartan-ecss-2026-27",
+      type: "Scholarship",
+      title: "HDFC Bank Parivartan ECSS Scholarship 2026-27",
+      organisation: "HDFC Bank Parivartan",
+      description: "Need-based scholarship of up to ₹75,000 for students from Class 1 to postgraduate, including diploma, ITI and polytechnic. Applications are taken through the Buddy4Study portal.",
+      eligibility: "Students at recognised institutions in India; income and marks criteria apply",
+      location: "All India (online)",
+      deadline: "2026-12-15",
+      deadlineNote: "school, UG and PG forms",
+      sourceUrl: "https://www.buddy4study.com/article/parivartan-ecss-programme",
+      applyUrl: "https://www.buddy4study.com/article/parivartan-ecss-programme",
+      verified: "2026-11-09"
+    },
+    {
+      id: "pm-internship-round-3",
+      type: "Internship",
+      title: "PM Internship Scheme (Round 3)",
+      organisation: "Ministry of Corporate Affairs, Government of India",
+      description: "Paid internships of 6 or 9 months with participating companies, with ₹9,000 monthly support. Companies post listings on a rolling basis, each with its own closing date.",
+      eligibility: "Age 18–25, not in full-time job; family income limits apply; eligible final-year UG/PG students can also apply",
+      location: "Across India",
+      deadline: "2026-12-31",
+      deadlineNote: "rolling; each listing has its own last date",
+      sourceUrl: "https://pminternship.mca.gov.in/",
+      applyUrl: "https://pminternship.mca.gov.in/",
+      verified: "2026-10-28"
+    },
+    {
+      id: "pmss-ksb-2026-27",
+      type: "Scholarship",
+      title: "Prime Minister’s Scholarship Scheme (PMSS) 2026-27",
+      organisation: "Kendriya Sainik Board, Ministry of Defence",
+      description: "Monthly scholarship for first-year students in approved professional and technical courses.",
+      eligibility: "Wards and widows of ex-servicemen / ex-Coast Guard personnel; first-year students; see KSB rules",
+      location: "All India (online)",
+      deadline: "2026-12-31",
+      deadlineNote: "fresh applications",
+      sourceUrl: "https://ksb.gov.in/",
+      applyUrl: "https://online.ksb.gov.in/",
+      verified: "2026-10-28"
+    },
+    {
+      id: "sample-internship",
+      sample: true,
+      type: "Internship",
+      title: "Sample listing: data analytics internship",
+      organisation: "Example organisation",
+      description: "This is a sample showing how a verified opportunity will appear. It is not a real opening.",
+      eligibility: "Final-year students and recent graduates",
+      location: "Remote",
+      deadline: "2026-12-15",
+      sourceUrl: "",
+      applyUrl: "",
+      verified: ""
+    }
+  ],
+
+  /* ---------- Free public resources ----------
+     Official portals. Fill in `reviewed` after you open each link and confirm it works. */
+  resources: [
+    { title: "National Scholarship Portal", topic: "Scholarships", description: "Government of India portal for central and state scholarship applications.", url: "https://scholarships.gov.in/", reviewed: "" },
+    { title: "SWAYAM", topic: "Free courses", description: "Free online courses from Indian universities and institutions, some with certificates.", url: "https://swayam.gov.in/", reviewed: "" },
+    { title: "National Career Service", topic: "Jobs & careers", description: "Government job portal with listings, career counselling information and job fairs.", url: "https://www.ncs.gov.in/", reviewed: "" },
+    { title: "AICTE Internship Portal", topic: "Internships", description: "Internship listings for students of AICTE-approved institutions.", url: "https://internship.aicte-india.org/", reviewed: "" },
+    { title: "British Council LearnEnglish", topic: "English learning", description: "Free grammar, vocabulary, listening and reading practice at different levels.", url: "https://learnenglish.britishcouncil.org/", reviewed: "" }
+  ],
+
+  /* ---------- Book collection campaigns ---------- */
+  campaigns: [
+    {
+      sample: true,
+      title: "Sample campaign: English learning books",
+      description: "Grammar books, dictionaries and spoken-English guides for students preparing for interviews.",
+      status: "Planned",
+      period: "Dates to be announced"
+    }
+  ],
+
+  /* ---------- Frequently asked questions ---------- */
+  faqs: [
+    { q: "Is this a registered organisation?", a: "Not yet, and we want to be upfront about that. We are first building a community of learners, volunteers and supporters. Once we have a steady group and a record of activities, we plan to apply for formal registration and will publish the details on our About page." },
+    { q: "How can I support you right now?", a: "Follow us, share our posts with someone who could use them, join the community, or donate a book. At this stage, followers and word of mouth help us more than anything else." },
+    { q: "Do you accept money donations?", a: "No. We currently accept books and volunteer time only. If anyone asks you for money in our name, please do not pay and let us know." },
+    { q: "Do I have to pay to join or attend events?", a: "No. Joining the community and attending our sessions is free." },
+    { q: "Do you guarantee jobs or English fluency?", a: "No. We share verified information and create practice opportunities. Progress depends on many things, and we are honest about that." },
+    { q: "Which books do you accept?", a: "English grammar books, dictionaries, vocabulary and spoken-English guides, interview-preparation material, educational textbooks and general reading books in usable condition." },
+    { q: "What do you do with my personal details?", a: "We use them only to respond to you and coordinate the activity you asked about. We never publish donor or recipient details. See the privacy policy for more." }
+  ]
+};
+
+/* Category lists used by the filters. Add a new category here before using it above. */
+window.KSR_EVENT_CATEGORIES = ["English-speaking circle", "Book collection drive", "Book distribution", "Career guidance", "Resume & mock interview", "Student meetup", "Volunteer orientation", "Online awareness session"];
+window.KSR_VIDEO_CATEGORIES = ["Career Opportunities", "Job & Internship Updates", "English Learning", "Interview Preparation", "Scholarships & Education", "Digital Skills", "Community Stories", "Awareness & Public Resources"];
+
+/* ---------- "Coming soon" messages ----------
+   Shown wherever a section has no real content yet (and when someone taps a
+   learning-hub topic). Edit the quotes freely. Leave `by` empty ("") for our own lines. */
+window.KSR_COMING_SOON = {
+  title: "Coming soon",
+  message: "Stay tuned: together, we’ll change the world.",
+  quotes: {
+    "default": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "events": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "opportunities": { text: "Arise, awake, and stop not till the goal is reached.", by: "Swami Vivekananda" },
+    "books": { text: "A book you’ve finished can be someone else’s beginning.", by: "" },
+    "impact": { text: "Dream, dream, dream. Dreams transform into thoughts and thoughts result in action.", by: "A. P. J. Abdul Kalam" },
+    "videos": { text: "Education is the most powerful weapon which you can use to change the world.", by: "Nelson Mandela" },
+    "Career Opportunities": { text: "Arise, awake, and stop not till the goal is reached.", by: "Swami Vivekananda" },
+    "Job & Internship Updates": { text: "The journey of a thousand miles begins with a single step.", by: "Lao Tzu" },
+    "English Learning": { text: "Every confident speaker was once a nervous beginner who kept practising.", by: "" },
+    "Interview Preparation": { text: "Excellence is a continuous process and not an accident.", by: "A. P. J. Abdul Kalam" },
+    "Scholarships & Education": { text: "Education is the most powerful weapon which you can use to change the world.", by: "Nelson Mandela" },
+    "Digital Skills": { text: "The skills you learn today open the doors you walk through tomorrow.", by: "" },
+    "Community Stories": { text: "Small steps, taken together, travel far.", by: "" },
+    "Awareness & Public Resources": { text: "Knowledge is power.", by: "Francis Bacon" }
+  },
+  // Short descriptions for the learning-hub topic tiles
+  topics: {
+    "Career Opportunities": "Where to look, what to apply for, and how to stand out.",
+    "Job & Internship Updates": "Verified openings explained in a few minutes.",
+    "English Learning": "Everyday and workplace English, one small lesson at a time.",
+    "Interview Preparation": "Common questions, how to answer them, and practice tips.",
+    "Scholarships & Education": "How to find and apply for scholarships and courses.",
+    "Digital Skills": "Practical computer and online skills for study and work.",
+    "Community Stories": "Real journeys from people in our community.",
+    "Awareness & Public Resources": "Government schemes and public services, explained simply."
+  }
+};
