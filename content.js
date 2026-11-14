@@ -177,11 +177,15 @@ window.KSR_CONTENT = {
   ],
 
   /* ---------- Opportunities ----------
+     levels: who can apply. Use any of: "School students", "10th pass", "12th / ITI", "Diploma", "Graduate", "Postgraduate"
+     region: "All India", or a state such as "Telangana" (used by the Location filter)
      Only add opportunities you have checked on the official source.
      verified: the date YOU checked it. deadline: "" if none. */
   opportunities: [
     {
       id: "sbi-sco-30-2026",
+      levels: ["Graduate", "Postgraduate"],
+      region: "All India",
       type: "Job",
       title: "SBI Specialist Cadre Officers, fixed term (CRPD/SCO/2026-27/30)",
       organisation: "State Bank of India",
@@ -196,6 +200,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "niti-aayog-internship-nov-2026",
+      levels: ["Graduate", "Postgraduate"],
+      region: "All India",
       type: "Internship",
       title: "NITI Aayog Internship: November application window",
       organisation: "NITI Aayog, Government of India",
@@ -210,6 +216,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "rrb-ntpc-ug-2026",
+      levels: ["12th / ITI"],
+      region: "All India",
       type: "Job",
       title: "RRB NTPC Undergraduate Level (CEN 07/2026): 1,688 posts",
       organisation: "Railway Recruitment Boards, Indian Railways",
@@ -224,6 +232,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "tgpsc-aso-mpso-2026",
+      levels: ["Graduate"],
+      region: "Telangana",
       type: "Job",
       title: "TGPSC Assistant Statistical Officer & MPSO: 102 posts",
       organisation: "Telangana Public Service Commission",
@@ -238,6 +248,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "iocl-pipelines-apprentice-2026",
+      levels: ["12th / ITI", "Diploma", "Graduate"],
+      region: "All India",
       type: "Internship",
       title: "IOCL Pipelines Apprentice: about 500 seats",
       organisation: "Indian Oil Corporation Limited (Pipelines Division)",
@@ -252,6 +264,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "dsssb-mts-je-2026",
+      levels: ["10th pass", "Diploma", "Graduate"],
+      region: "Delhi",
       type: "Job",
       title: "DSSSB MTS & Junior Engineer: 1,260 posts",
       organisation: "Delhi Subordinate Services Selection Board",
@@ -266,6 +280,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "hdfc-parivartan-ecss-2026-27",
+      levels: ["School students", "10th pass", "12th / ITI", "Diploma", "Graduate", "Postgraduate"],
+      region: "All India",
       type: "Scholarship",
       title: "HDFC Bank Parivartan ECSS Scholarship 2026-27",
       organisation: "HDFC Bank Parivartan",
@@ -280,6 +296,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "pm-internship-round-3",
+      levels: ["10th pass", "12th / ITI", "Diploma", "Graduate"],
+      region: "All India",
       type: "Internship",
       title: "PM Internship Scheme (Round 3)",
       organisation: "Ministry of Corporate Affairs, Government of India",
@@ -294,6 +312,8 @@ window.KSR_CONTENT = {
     },
     {
       id: "pmss-ksb-2026-27",
+      levels: ["12th / ITI"],
+      region: "All India",
       type: "Scholarship",
       title: "Prime Minister’s Scholarship Scheme (PMSS) 2026-27",
       organisation: "Kendriya Sainik Board, Ministry of Defence",

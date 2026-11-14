@@ -197,6 +197,8 @@
     var all = visible(DATA.events).sort(function (a, b) { return toDate(a.start) - toDate(b.start); });
     $$('[data-render="events-preview"]').forEach(function (el) {
       var up = all.filter(isUpcoming).slice(0, 3);
+      var sec = el.closest("[data-hide-if-no-events]");
+      if (sec) sec.hidden = !up.length;
       el.innerHTML = up.length ? '<div class="card-list">' + up.map(eventCard).join("") + "</div>" :
         comingSoon("events", "Our first meetups are being planned");
       bindEventButtons(el);
@@ -342,8 +344,20 @@
     var all = visible(DATA.opportunities).filter(function (o) { return !(o.deadline && toDate(o.deadline) < new Date()); })
       .sort(function (a, b) { return (a.deadline || "9999").localeCompare(b.deadline || "9999"); });
     var types = ["All"].concat(all.map(function (o) { return o.type; }).filter(function (t, i, a) { return a.indexOf(t) === i; }));
-    var bar = $("[data-opp-filters]"), state = "All";
-    bar.innerHTML = '<div class="chips" role="group" aria-label="Filter by type">' + types.map(function (t) { return '<button type="button" class="chip" data-cat="' + esc(t) + '" aria-pressed="' + (t === "All") + '">' + esc(t) + "</button>"; }).join("") + "</div>";
+    var bar = $("[data-opp-filters]"), state = "All", level = "", region = "";
+    var LEVELS = ["School students", "10th pass", "12th / ITI", "Diploma", "Graduate", "Postgraduate"];
+    var levels = LEVELS.filter(function (l) { return all.some(function (o) { return (o.levels || []).indexOf(l) > -1; }); });
+    var regions = all.map(function (o) { return o.region; }).filter(function (r, i, a) { return r && r !== "All India" && a.indexOf(r) === i; });
+    bar.innerHTML = '<div class="chips" role="group" aria-label="Filter by type">' + types.map(function (t) { return '<button type="button" class="chip" data-cat="' + esc(t) + '" aria-pressed="' + (t === "All") + '">' + esc(t) + "</button>"; }).join("") + "</div>" +
+      '<div class="filter-selects">' +
+      '<label class="filter-select"><span>My qualification</span><select data-filter="level"><option value="">Any</option>' + levels.map(function (l) { return "<option>" + esc(l) + "</option>"; }).join("") + "</select></label>" +
+      '<label class="filter-select"><span>Location</span><select data-filter="region"><option value="">Anywhere</option>' + regions.map(function (r) { return '<option value="' + esc(r) + '">' + esc(r) + " + All India</option>"; }).join("") + "</select></label></div>" +
+      '<p class="small filter-count" aria-live="polite" data-opp-count></p>';
+    bar.addEventListener("change", function (e) {
+      var s = e.target.closest("[data-filter]"); if (!s) return;
+      if (s.dataset.filter === "level") level = s.value; else region = s.value;
+      draw();
+    });
     function card(o) {
       var expired = o.deadline && toDate(o.deadline) < new Date();
       var apply = safeUrl(o.applyUrl), source = safeUrl(o.sourceUrl);
@@ -352,6 +366,7 @@
         (expired ? '<span class="badge badge-expired">Deadline passed</span>' : "") +
         (!expired && o.deadline && (toDate(o.deadline) - new Date()) < 7 * 864e5 ? '<span class="badge badge-expired">Closing soon</span>' : "") + "</div>" +
         "<h3>" + esc(o.title) + "</h3>" + (o.organisation ? '<span class="small">' + esc(o.organisation) + "</span>" : "") + "<p>" + esc(o.description) + "</p>" +
+        ((o.levels || []).length ? '<div class="level-tags">' + o.levels.map(function (l) { return "<span>" + esc(l) + "</span>"; }).join("") + "</div>" : "") +
         '<div class="meta"><span><b>Eligibility:</b> ' + esc(o.eligibility || "See source") + "</span><span><b>Location:</b> " + esc(o.location || "See source") + "</span>" +
         "<span><b>Deadline:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + (o.deadlineNote ? " (" + esc(o.deadlineNote) + ")" : "") + "</span></div>" +
         '<div class="card-actions">' + (apply && !expired ? '<a class="btn btn-primary" href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") +
@@ -360,9 +375,15 @@
         (!o.sample && !expired ? shareRow(oppShareText(o), pageUrl("opportunities.html", o.id)) : "") + "</article>";
     }
     function draw() {
-      var list = all.filter(function (o) { return state === "All" || o.type === state; });
+      var list = all.filter(function (o) {
+        return (state === "All" || o.type === state) &&
+          (!level || (o.levels || []).indexOf(level) > -1) &&
+          (!region || o.region === region || o.region === "All India");
+      });
+      var cnt = $("[data-opp-count]"); if (cnt) cnt.textContent = list.length + (list.length === 1 ? " opportunity" : " opportunities") + " open";
       el.innerHTML = list.length ? '<div class="card-list">' + list.map(card).join("") + "</div>" :
-        comingSoon("opportunities", "Verified opportunities are coming soon");
+        (all.length ? '<div class="empty"><strong>Nothing open for this combination right now</strong>Try another qualification or location, or check back soon. We add new openings every week.</div>' :
+        comingSoon("opportunities", "Verified opportunities are coming soon"));
       bar.hidden = !all.length;
     }
     bar.addEventListener("click", function (e) { var b = e.target.closest("[data-cat]"); if (!b) return; state = b.dataset.cat; $$("[data-cat]", bar).forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); draw(); });
@@ -554,6 +575,16 @@
   }
   function videoShareText(v) { return "▶️ " + v.title + "\nA short, free video from KSR Knowledge Foundation:"; }
 
+  /* ---------- Home: impact strip under the top section ---------- */
+  function impactStrip() {
+    $$('[data-render="impact-strip"]').forEach(function (el) {
+      var items = (DATA.impact || []).filter(function (i) { return typeof i.value === "number" && i.value > 0; });
+      el.innerHTML = items.map(function (i) {
+        return "<li><strong>" + i.value.toLocaleString("en-IN") + "</strong><span>" + esc(i.label) + "</span></li>";
+      }).join("") + "<li><strong>100%</strong><span>Free, no fees ever</span></li>";
+    });
+  }
+
   /* ---------- Home: latest opportunities ---------- */
   function opportunitiesPreview() {
     $$('[data-render="opportunities-preview"]').forEach(function (el) {
@@ -583,7 +614,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    opportunitiesPreview(); analytics();
+    opportunitiesPreview(); impactStrip(); analytics();
     fillOrg(); menu(); impact(); events(); videos(); opportunities(); resources(); campaigns(); faqs(); tabs(); prefill();
     $$("form[data-form]").forEach(bindForm);
     var cfgForms = CFG.forms || {};

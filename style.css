@@ -379,3 +379,21 @@ dialog .embed-short { margin: 0 auto; max-height: 70vh; width: auto; height: 70v
 .opp-mini li { grid-template-columns: auto 1fr auto auto auto; }
 @media (max-width: 760px) { .opp-mini li { grid-template-columns: 1fr; } .share-mini { justify-self: start; } }
 .card.is-highlight { box-shadow: 0 0 0 3px var(--marigold); transition: box-shadow .3s; }
+
+/* Home: impact strip */
+.trust-strip { background: var(--forest); color: var(--white); }
+.trust-list { list-style: none; margin: 0 auto; padding: 1.1rem 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 2.6rem; }
+.trust-list li { margin: 0; display: flex; align-items: baseline; gap: .5rem; }
+.trust-list strong { font-family: var(--serif); font-size: 1.7rem; font-weight: 600; color: #F3C77C; }
+.trust-list span { color: #DCE6E1; font-size: .98rem; }
+.btn-outline-light { background: transparent; color: var(--paper); border-color: var(--paper); }
+.btn-outline-light:hover { background: var(--paper); color: var(--forest); }
+.section-forest .btn-outline-light { color: var(--paper); }
+.section-forest .btn-outline-light:hover { color: var(--forest); }
+/* Opportunity filters */
+.filter-selects { display: flex; flex-wrap: wrap; gap: .8rem 1.2rem; width: 100%; }
+.filter-select { display: flex; flex-direction: column; gap: .3rem; font-size: .88rem; font-weight: 600; color: var(--muted); min-width: 200px; }
+.filter-select select { min-height: 44px; padding: .5rem .7rem; }
+.filter-count { width: 100%; margin: 0; }
+.level-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+.level-tags span { font-size: .75rem; font-weight: 600; color: var(--teal); border: 1px solid #B9D8D3; border-radius: 999px; padding: .1rem .5rem; }
