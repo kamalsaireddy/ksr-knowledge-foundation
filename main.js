@@ -289,7 +289,7 @@
       var vh = $("[data-video-heading]"); if (vh) vh.textContent = "Topics we’re preparing";
       var topics = (window.KSR_COMING_SOON || {}).topics || {};
       page.innerHTML = '<div class="topic-grid">' + (window.KSR_VIDEO_CATEGORIES || []).map(function (c) {
-        return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '"><span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topics[c] || "") + '</span><span class="badge">Coming soon</span></button>';
+        return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '">' + topicIcon(c) + '<span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topics[c] || "") + '</span><span class="badge">Coming soon</span></button>';
       }).join("") + "</div>";
       page.addEventListener("click", function (e) {
         var b = e.target.closest("[data-topic-tile]"); if (!b) return;
@@ -317,7 +317,7 @@
       page.innerHTML = (list.length ? '<div class="card-list' + (allShort ? " shorts" : "") + '">' + list.map(videoCard).join("") + "</div>" :
         '<div class="empty"><strong>No videos match' + (state.q ? " “" + esc(state.q) + "”" : " this category") + "</strong>Try another word or choose All.</div>") +
         (state.cat === "All" && !state.q && upcoming.length ? '<h3 class="mt-2">More topics coming soon</h3><div class="topic-grid">' + upcoming.map(function (c) {
-          return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '"><span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topicsTxt[c] || "") + '</span><span class="badge">Coming soon</span></button>';
+          return '<button type="button" class="topic-tile" data-topic-tile="' + esc(c) + '">' + topicIcon(c) + '<span class="topic-name">' + esc(c) + '</span><span class="topic-desc">' + esc(topicsTxt[c] || "") + '</span><span class="badge">Coming soon</span></button>';
         }).join("") + "</div>" : "");
       $("[data-video-count]").textContent = list.length + (list.length === 1 ? " video" : " videos");
     }
@@ -361,16 +361,19 @@
     function card(o) {
       var expired = o.deadline && toDate(o.deadline) < new Date();
       var apply = safeUrl(o.applyUrl), source = safeUrl(o.sourceUrl);
-      return '<article class="card" id="' + esc(o.id) + '"><div class="badge-row"><span class="badge">' + esc(o.type) + "</span>" + sampleBadge(o) +
-        (o.verified ? '<span class="badge badge-verified">Verified ' + fmtDate(o.verified) + "</span>" : "") +
-        (expired ? '<span class="badge badge-expired">Deadline passed</span>' : "") +
-        (!expired && o.deadline && (toDate(o.deadline) - new Date()) < 7 * 864e5 ? '<span class="badge badge-expired">Closing soon</span>' : "") + "</div>" +
-        "<h3>" + esc(o.title) + "</h3>" + (o.organisation ? '<span class="small">' + esc(o.organisation) + "</span>" : "") + "<p>" + esc(o.description) + "</p>" +
+      var tcls = "type-" + String(o.type || "").toLowerCase().replace(/[^a-z]+/g, "-");
+      return '<article class="card opp-card ' + tcls + '" id="' + esc(o.id) + '">' +
+        '<div class="opp-top"><div class="badge-row"><span class="badge">' + esc(o.type) + "</span>" + sampleBadge(o) +
+        (o.verified ? '<span class="badge badge-verified">Verified ' + fmtDate(o.verified) + "</span>" : "") + "</div>" +
+        (o.deadline && !expired ? countdown(o.deadline) : "") + "</div>" +
+        "<h3>" + esc(o.title) + "</h3>" + (o.organisation ? '<span class="small">' + esc(o.organisation) + "</span>" : "") +
         ((o.levels || []).length ? '<div class="level-tags">' + o.levels.map(function (l) { return "<span>" + esc(l) + "</span>"; }).join("") + "</div>" : "") +
-        '<div class="meta"><span><b>Eligibility:</b> ' + esc(o.eligibility || "See source") + "</span><span><b>Location:</b> " + esc(o.location || "See source") + "</span>" +
-        "<span><b>Deadline:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + (o.deadlineNote ? " (" + esc(o.deadlineNote) + ")" : "") + "</span></div>" +
+        '<div class="meta"><span><b>Where:</b> ' + esc(o.location || "See source") + "</span>" +
+        "<span><b>Last date:</b> " + (o.deadline ? fmtDate(o.deadline) : "Not stated") + (o.deadlineNote ? " (" + esc(o.deadlineNote) + ")" : "") + "</span></div>" +
+        '<details class="opp-more"><summary>More details</summary><p>' + esc(o.description) + "</p>" +
+        '<p class="small"><b>Eligibility:</b> ' + esc(o.eligibility || "See source") + "</p>" +
+        (source ? '<p class="small"><a href="' + esc(source) + '" target="_blank" rel="noopener">View official source</a></p>' : "") + "</details>" +
         '<div class="card-actions">' + (apply && !expired ? '<a class="btn btn-primary" href="' + esc(apply) + '" target="_blank" rel="noopener">Apply on official site</a>' : "") +
-        (source ? '<a href="' + esc(source) + '" target="_blank" rel="noopener">View source</a>' : "") +
         (!apply && !source ? '<span class="small">Sample listing: no link</span>' : "") + "</div>" +
         (!o.sample && !expired ? shareRow(oppShareText(o), pageUrl("opportunities.html", o.id)) : "") + "</article>";
     }
@@ -560,6 +563,17 @@
     });
   }
 
+  /* ---------- Deadline countdown ---------- */
+  function countdown(deadline) {
+    var d = toDate(deadline); if (!d) return "";
+    var now = new Date(); var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var n = Math.round((day - today) / 864e5);
+    var cls = n <= 7 ? " urgent" : "";
+    var txt = n <= 0 ? "<strong>Today</strong><span>last day</span>" : "<strong>" + n + "</strong><span>" + (n === 1 ? "day left" : "days left") + "</span>";
+    return '<div class="countdown' + cls + '">' + txt + "</div>";
+  }
+
   /* ---------- Share buttons (WhatsApp, LinkedIn) ---------- */
   var WA_ICON = '<svg class="share-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#25D366"/><path d="M17.2 14.3c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.5-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.3.3-1 .9-1 2.3s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z" fill="#fff"/><path d="M12 4.6a7.4 7.4 0 0 0-6.4 11.1L4.6 19.4l3.8-1a7.4 7.4 0 1 0 3.6-13.8z" fill="none" stroke="#fff" stroke-width="1.3"/></svg>';
   function pageUrl(page, id) { var u = new URL(page, location.href); u.hash = id ? "#" + id : ""; u.search = ""; return u.href; }
@@ -574,6 +588,46 @@
     return "📢 " + o.title + (o.deadline ? "\n🗓️ Last date: " + fmtDate(o.deadline) : "") + "\n✅ Verified by KSR Knowledge Foundation. Apply only on the official website, never pay an agent.\nDetails and official link:";
   }
   function videoShareText(v) { return "▶️ " + v.title + "\nA short, free video from KSR Knowledge Foundation:"; }
+
+  var TOPIC_ICONS = {
+    "Career Opportunities": '<path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
+    "Job & Internship Updates": '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+    "English Learning": '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/>',
+    "Interview Preparation": '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.4 3-5.5 6-5.5s5.4 2.1 6 5.5"/><path d="M16 4.5h5v4h-3l-2 2z"/>',
+    "Scholarships & Education": '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>',
+    "Digital Skills": '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+    "Community Stories": '<circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3 19c.5-2.8 2.5-4.5 5-4.5s4.5 1.7 5 4.5M11 19c.5-2.8 2.5-4.5 5-4.5s4.5 1.7 5 4.5"/>',
+    "Awareness & Public Resources": '<path d="M12 3l8 3v6c0 4.6-3.4 8-8 9-4.6-1-8-4.4-8-9V6z"/><path d="M9 12l2 2 4-4"/>'
+  };
+  function topicIcon(c) { var p = TOPIC_ICONS[c]; return p ? '<svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + "</svg>" : ""; }
+
+  /* ---------- Gentle fade-in as sections scroll into view ---------- */
+  function reveal() {
+    if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var els = $$("main > section").filter(function (s, i) { return i > 1 && !s.hidden; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (s) {
+      var r = s.getBoundingClientRect(); if (r.top < window.innerHeight) return;
+      s.classList.add("reveal"); io.observe(s);
+    });
+  }
+
+  /* ---------- Home: row of short videos ---------- */
+  function videoRow() {
+    $$('[data-render="video-row"]').forEach(function (el) {
+      var list = visible(DATA.videos).filter(function (v) { return v.youtubeId; })
+        .sort(function (a, b) { return (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || (b.published || "").localeCompare(a.published || ""); }).slice(0, 4);
+      var sec = el.closest("section"); if (!list.length) { if (sec) sec.hidden = true; return; }
+      el.innerHTML = '<div class="video-row" style="--cols:' + list.length + '">' + list.map(function (v) {
+        var src = v.thumbnail || "https://i.ytimg.com/vi/" + encodeURIComponent(v.youtubeId) + "/hqdefault.jpg";
+        return '<a class="video-tile" href="' + esc(pageUrl("learn.html", v.id)) + '">' +
+          '<span class="video-tile-thumb' + (v.short ? " short" : "") + '" style="background-image:url(\'' + esc(src) + '\')"><span class="play" aria-hidden="true">' + PLAY + "</span></span>" +
+          '<span class="badge">' + esc(v.category) + '</span><span class="video-tile-title">' + esc(v.title) + "</span></a>";
+      }).join("") + "</div>";
+    });
+  }
 
   /* ---------- Home: impact strip under the top section ---------- */
   function impactStrip() {
@@ -614,7 +668,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    opportunitiesPreview(); impactStrip(); analytics();
+    opportunitiesPreview(); impactStrip(); videoRow(); reveal(); analytics();
     fillOrg(); menu(); impact(); events(); videos(); opportunities(); resources(); campaigns(); faqs(); tabs(); prefill();
     $$("form[data-form]").forEach(bindForm);
     var cfgForms = CFG.forms || {};
